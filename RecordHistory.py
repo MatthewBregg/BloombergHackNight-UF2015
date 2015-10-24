@@ -21,6 +21,15 @@ def run(user, password, *commands):
             rline = sfile.readline()
         return result 
 
+def hasStock(ticker):
+    result = run("___","____", "MY_SECURITIES")
+    securities = result.split(" ")
+    securities.pop(0)
+    for i in range(0,len(securities)):
+            if(securities[i] == ticker and float(securities[i+1]) > 0):
+                return True              
+    return False
+
 
 def record():
     records =  {'AAPL': dict(), 'ATVI': dict(), 'EA': dict(),'FB': dict(), 'GOOG': dict(), 'MSFT': dict(), 'SBUX': dict(), 'SNY': dict(), 'TSLA': dict(),'TWTR': dict()}
