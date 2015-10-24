@@ -30,6 +30,10 @@ def hasStock(ticker):
                 return True              
     return False
 
+def getCash():
+    result = run("___","____", "MY_CASH")
+    securities = result.split(" ")
+    return securities[1]
 
 def record():
     records =  {'AAPL': dict(), 'ATVI': dict(), 'EA': dict(),'FB': dict(), 'GOOG': dict(), 'MSFT': dict(), 'SBUX': dict(), 'SNY': dict(), 'TSLA': dict(),'TWTR': dict()}
