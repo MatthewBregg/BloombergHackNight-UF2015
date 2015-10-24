@@ -1,4 +1,4 @@
-import RecordHistory
+﻿import RecordHistory
 
 
 def getDeriveArray(input, days):
@@ -44,7 +44,8 @@ def getLowestOwnedItem(input,key):
     currentMin = {key: float("Inf")}
     minName = ""
     for name in input:
-        if not RecordHistory.hasStock(name):
+        stock,shares = RecordHistory.hasStock(name)
+        if not stock:
             continue
         #print("checking"+name)
         if currentMin[key] > input[name][key]:
@@ -83,37 +84,48 @@ def calculateSale():
     #      'GOOGL':{"bid":1,"ask":6,"net_worth":3}}]
     # print(getDeriveArray(testdata,len(testdata)))
     counter = 0
+    offset = [1,1,1]
+    prev_tic = ["","",""]
     while(True):
         counter+=1
-        logData.append(RecordHistory.record())
-        if counter < 6:
+        currentRecord = RecordHistory.record()
+        logData.append(currentRecord)
+        if counter < 11:
             continue
-
+        print("MY CASH : " + str(RecordHistory.getCash()))
+        historyLength = min(counter,100)
         #print(logData)
-        firstDx = getDeriveArray(logData, 5)
-        print("first dx")
-        print(firstDx)
+        firstDx = getDeriveArray(logData, historyLength)
+        #print("first dx")
+        #print(firstDx)
         #WARNING, each time it is redireved, must go one less than previous call.
         #Will not work in this case if you do 
         #firstDx = getDeriveArray(logData, 5)
         #secondDx = getDeriveArray(firstDx, 5)
         #As in the second call, the 5 must be no greater than 4!!!!!
         #This is because the derivative array received is one less than the input array!!!
-        secondDx = getDeriveArray(firstDx, 4)
-        print("second dx")
-        print(secondDx)
+        secondDx = getDeriveArray(firstDx, historyLength-1)
+        #print("second dx")
+        #print(secondDx)
         average = getAverage(secondDx)
-        print("average")
-        print(average)
-        bestItem = getHighestItem(average,"net_worth")
+        #print("average")
+        #print(average)
+        bestItem = getHighestItem(average,"bid")
+        RecordHistory.buyAllShares(bestItem,currentRecord)
+        for i in  range(0,3):
+            worstItem = getLowestOwnedItem(average,"ask")
+            if(worstItem == ''):
+                break
+            else:
+                prev_tic[i],offset[i] = RecordHistory.sellAllSharesMod(worstItem,currentRecord,prev_tic[i],offset[i])
+                average.pop(worstItem,None)
+        #record
+        #for i in  range(0,3):
         
-        worstItem = getLowestOwnedItem(average,"net_worth")
         print("Worst")
         print(worstItem)
         print("Best")
         print(bestItem)
-
-        sellAllshares(worstItem)
-        buyAllShares(bestItem)
+        
 
 calculateSale()
