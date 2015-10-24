@@ -19,7 +19,21 @@ def run(user, password, *commands):
         while rline:
             result += rline.strip() + " "
             rline = sfile.readline()
-        return result 
+        return result
+
+def sellAllShares(ticker,record):
+    if(hasStock(ticker)):
+        my_cash,shares = getCash()
+        price = record[ticker]['ask']
+        result = run("___","____", "ASK " + ticker + " " + price + " " + shares)
+
+def buyAllShares(ticker,record):
+    my_cash,shares = getCash()
+    if(my_cash != 0):
+        price = record[ticker]['bid']
+        shares = my_cash/price
+        result = run("___","____", "BID " + ticker + " " + price + " " + shares)      
+
 
 def hasStock(ticker):
     result = run("___","____", "MY_SECURITIES")
@@ -27,8 +41,8 @@ def hasStock(ticker):
     securities.pop(0)
     for i in range(0,len(securities)):
             if(securities[i] == ticker and float(securities[i+1]) > 0):
-                return True              
-    return False
+                return True,securities[i+1]            
+    return False,0
 
 def getCash():
     result = run("___","____", "MY_CASH")
