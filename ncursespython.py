@@ -24,9 +24,9 @@ while(True):
     clientpy3.run("___","____","CLOSE_CONNECTION");
     try:
         # Run your code here
-        stdscr.addstr(10,5,cash)
-        stdscr.addstr(12,5,secs)
-        stdscr.addstr(14,5,orders)
+        stdscr.addstr(1, 0, cash)
+        stdscr.addstr(3, 0, secs)
+        stdscr.addstr(5, 0, orders)
         stdscr.refresh()
         time.sleep(2)
     finally:
