@@ -1,1 +1,39 @@
 https://drive.google.com/folderview?id=0B20lVT_v177ea04wZlNWVTdfTlk&usp=sharing
+
+DISCLAIMER: The HELP command returns more than 1 line and may negatively impact programs dependend on some getline() function. You shouldn't be calling HELP in your programs anyways.
+
+MY_CASH - output your current cash.
+Output format: MY_CASH_OUT <cash>
+
+MY_SECURITIES - output all shares you own.
+Output format: MY_SECURITIES_OUT <ticker> <shares> <dividend_ratio> <ticker> <shares> <dividend_ratio> ...
+
+MY_ORDERS - output all of your current orders bid & ask on the exchange.
+Output format: MY_ORDERS_OUT [<BID or ASK> <price> <shares>...]
+
+SECURITIES - output all securities in the exchange.
+Output format: SECURITIES_OUT <ticker> <net_worth> <dividend_ratio> <volatility>â€¦
+
+ORDERS <ticker> - list all orders on the exchange for a ticker.
+Output format: SECURITY_ORDERS_OUT [<BID or ASK> <price> <shares>â€¦]
+
+BID <ticker> <price> <shares> - place a new bid.
+Output format: BID_OUT DONE or ERROR Not Enough Cash to make bid order
+
+ASK <ticker> <price> <shares> - place a new ask.
+Output format: ASK_OUT DONE or ERROR Not Enough Shares Owned
+
+CLEAR_BID <ticker> - clear your bid.
+Output format: CLEAR_BID_OUT DONE or ERROR No Security Specified
+
+CLEAR_ASK <ticker> - clear your ask.
+Output format: CLEAR_ASK_OUT DONE or ERROR No Security Specified
+
+SUBSCRIBE - subscribe to any trades you make as well as any bids. The market may automatically withdraw due to lack of funds.
+Output format: BUY <ticker> <price> <shares> or SELL <ticker> <price> <shares>
+
+UNSUBSRCIBE - unsubscribe from updates.
+
+CLOSE_CONNECTION - end the connection gracefully.
+
+HELP - show all possible commands.
