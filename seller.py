@@ -2,6 +2,10 @@ import RecordHistory
 
 
 def getDeriveArray(input, days):
+    input = input[len(input)-days:]
+    print("input is")
+    print(input)
+    print("done")
     accumulation = []
     for day in input:
         accumulation.append({})
@@ -30,20 +34,20 @@ logData = []
 
 
 def calculateSale():
-    testdata = [
-        {'AAPL': {"bid":10,"ask":15,"net_worth":5},
-         'GOOGL':{"bid":1,"ask":5,"net_worth":7} },
-        {'AAPL': {"bid":15,"ask":10,"net_worth":3},
-         'GOOGL':{"bid":1,"ask":6,"net_worth":3}}]
-    print(getDeriveArray(testdata,2))
-    # for i in range(1,10):
-    #     logData.append(RecordHistory.record())
-    #     print(logData)
-    #     firstDx = getDeriveArray(logData, 10)
-    #     print("first dx")
-    #     print(firstDx)
-    #     secondDx = getDeriveArray(firstDx, 10)
-    #     print("Second dx")
-    #     print(secondDx)
+    # testdata = [
+    #     {'AAPL': {"bid":10,"ask":15,"net_worth":5},
+    #      'GOOGL':{"bid":1,"ask":5,"net_worth":7} },
+    #     {'AAPL': {"bid":15,"ask":10,"net_worth":3},
+    #      'GOOGL':{"bid":1,"ask":6,"net_worth":3}}]
+    # print(getDeriveArray(testdata,len(testdata)))
+    for i in range(1,10):
+        logData.append(RecordHistory.record())
+        print(logData)
+        firstDx = getDeriveArray(logData, 10)
+        print("first dx")
+        print(firstDx)
+        secondDx = getDeriveArray(firstDx, 10)
+        print("Second dx")
+        print(secondDx)
 
 calculateSale()
