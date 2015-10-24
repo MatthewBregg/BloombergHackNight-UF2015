@@ -8,23 +8,23 @@ def getDeriveArray(input, days):
         accumulation.append({})
            
     for key in input[0]:
-        bidAc = 0
-        askAc = 0
-        worthAc = 0
+        bidAcP = 0 
+        askAcP = 0 
+        worthAcP =0 
         days = 0
         for day, accum_day in zip(input,accumulation):
             days += 1
             # print(days)
             accum_day[key] = {"bid":0,"ask":0,"net_worth":0}
-            bidAc += day[key]["bid"]
-            accum_day[key]["bid"] = bidAc/days
-
-            askAc += day[key]["ask"]
-            accum_day[key]["ask"] = askAc/days
-
-            worthAc += day[key]["net_worth"]
-            accum_day[key]["net_worth"] = worthAc/days
-    return accumulation
+#            print("doing the deriving thing")
+#            print(str(bidAcP) + " " + str(askAcP) + " " + str(worthAcP))
+            accum_day[key]["bid"] = day[key]["bid"] - bidAcP
+            accum_day[key]["ask"] = day[key]["ask"] - askAcP
+            accum_day[key]["net_worth"] = day[key]["net_worth"] - worthAcP
+            bidAcP = day[key]["bid"]
+            askAcP = day[key]["ask"]
+            worthAcP = day[key]["net_worth"]
+    return accumulation[1:]
 
 
 logData = []
@@ -33,7 +33,7 @@ def getHighestItem(input,key):
     currentMax = {key:0}
     maxName = ""
     for name in input:
-        print("checking"+name)
+        #print("checking"+name)
         if currentMax[key] < input[name][key]:
             currentMax = input[name]
             maxName = name
@@ -46,13 +46,34 @@ def getLowestOwnedItem(input,key):
     for name in input:
         if not RecordHistory.hasStock(name):
             continue
-        print("checking"+name)
+        #print("checking"+name)
         if currentMin[key] > input[name][key]:
-            currentMin = {input[name]}
+            currentMin = input[name]
             minName = name
 
     return {minName:currentMin}
 
+def getAverage(input):
+    assert(len(input) > 0)
+    counter = 0
+    average = input[0]
+    for key in average:
+        average[key]["bid"] = 0
+        average[key]["ask"] = 0
+        average[key]["net_worth"] = 0
+        
+    for day in input:
+        counter+=1
+        for key in day:
+            average[key]["bid"] += day[key]["bid"] 
+            average[key]["ask"] += day[key]["ask"]
+            average[key]["net_worth"] += day[key]["net_worth"]
+    
+    for key in average:
+        average[key]["bid"] /= counter
+        average[key]["ask"] /= counter
+        average[key]["net_worth"] /= counter
+    return average
 
 def calculateSale():
     # testdata = [
@@ -64,19 +85,29 @@ def calculateSale():
     counter = 0
     while(True):
         counter+=1
+        logData.append(RecordHistory.record())
         if counter < 6:
             continue
 
-        logData.append(RecordHistory.record())
         #print(logData)
         firstDx = getDeriveArray(logData, 5)
-     
-        secondDx = getDeriveArray(firstDx, 5)
-    
-        bestItem = getHighestItem(secondDx[-1],"net_worth")
-
-        worstItem = getLowestOwnedItem(secondDx[-1],"net_worth")
-        print(secondDx[-1])
+        print("first dx")
+        print(firstDx)
+        #WARNING, each time it is redireved, must go one less than previous call.
+        #Will not work in this case if you do 
+        #firstDx = getDeriveArray(logData, 5)
+        #secondDx = getDeriveArray(firstDx, 5)
+        #As in the second call, the 5 must be no greater than 4!!!!!
+        #This is because the derivative array received is one less than the input array!!!
+        secondDx = getDeriveArray(firstDx, 4)
+        print("second dx")
+        print(secondDx)
+        average = getAverage(secondDx)
+        print("average")
+        print(average)
+        bestItem = getHighestItem(average,"net_worth")
+        
+        worstItem = getLowestOwnedItem(average,"net_worth")
         print("Worst")
         print(worstItem)
         print("Best")
