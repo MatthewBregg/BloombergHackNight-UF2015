@@ -38,7 +38,7 @@ def getHighestItem(input,key):
             currentMax = input[name]
             maxName = name
 
-    return {maxName:currentMax}
+    return maxName
 
 def getLowestOwnedItem(input,key):
     currentMin = {key: float("Inf")}
@@ -51,7 +51,7 @@ def getLowestOwnedItem(input,key):
             currentMin = input[name]
             minName = name
 
-    return {minName:currentMin}
+    return minName
 
 def getAverage(input):
     assert(len(input) > 0)
