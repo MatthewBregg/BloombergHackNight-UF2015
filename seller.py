@@ -3,9 +3,6 @@ import RecordHistory
 
 def getDeriveArray(input, days):
     input = input[len(input)-days:]
-    print("input is")
-    print(input)
-    print("done")
     accumulation = []
     for day in input:
         accumulation.append({})
@@ -32,6 +29,30 @@ def getDeriveArray(input, days):
 
 logData = []
 
+def getHighestItem(input,key):
+    currentMax = {key:0}
+    maxName = ""
+    for name in input:
+        print("checking"+name)
+        if currentMax[key] < input[name][key]:
+            currentMax = input[name]
+            maxName = name
+
+    return {maxName:currentMax}
+
+def getLowestOwnedItem(input,key):
+    currentMin = {key: float("Inf")}
+    minName = ""
+    for name in input:
+        if not RecordHistory.hasStock(name):
+            continue
+        print("checking"+name)
+        if currentMin[key] > input[name][key]:
+            currentMin = {input[name]}
+            minName = name
+
+    return {minName:currentMin}
+
 
 def calculateSale():
     # testdata = [
@@ -40,14 +61,28 @@ def calculateSale():
     #     {'AAPL': {"bid":15,"ask":10,"net_worth":3},
     #      'GOOGL':{"bid":1,"ask":6,"net_worth":3}}]
     # print(getDeriveArray(testdata,len(testdata)))
-    for i in range(1,10):
+    counter = 0
+    while(True):
+        counter+=1
+        if counter < 6:
+            continue
+
         logData.append(RecordHistory.record())
-        print(logData)
-        firstDx = getDeriveArray(logData, 10)
-        print("first dx")
-        print(firstDx)
-        secondDx = getDeriveArray(firstDx, 10)
-        print("Second dx")
-        print(secondDx)
+        #print(logData)
+        firstDx = getDeriveArray(logData, 5)
+     
+        secondDx = getDeriveArray(firstDx, 5)
+    
+        bestItem = getHighestItem(secondDx[-1],"net_worth")
+
+        worstItem = getLowestOwnedItem(secondDx[-1],"net_worth")
+        print(secondDx[-1])
+        print("Worst")
+        print(worstItem)
+        print("Best")
+        print(bestItem)
+
+        sellAllshares(worstItem)
+        buyAllShares(bestItem)
 
 calculateSale()
