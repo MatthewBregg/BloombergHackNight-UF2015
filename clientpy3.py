@@ -14,9 +14,7 @@ def run(user, password, *commands):
         sock.sendall(bytes(data, "utf-8"))
         sfile = sock.makefile()
         rline = sfile.readline()
-        while rline:
-            print(rline.strip())
-            rline = sfile.readline()
+        return rline.strip();
 
 def subscribe(user, password):
     HOST, PORT = "codebb.cloudapp.net", 17429

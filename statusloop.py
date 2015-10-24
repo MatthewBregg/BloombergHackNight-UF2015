@@ -13,6 +13,7 @@ while(True):
         print("Securities are : "
               + str(clientpy3.run("___","____","MY_SECURITIES")))
         print("My orders are are : " + str(clientpy3.run("___","____","MY_ORDERS")))
+        clientpy3.run("___","____","CLOSE_CONNECTION");
         time.sleep(1)
         clear()
 
